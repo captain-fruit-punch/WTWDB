@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/sonartest.png-75720481dbc08ba0e056acb2f69645b2.stex"
+path="res://.import/sonartest.png-8dca1ab3441f3d048fb4336581a9804f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sonartest.png"
-dest_files=[ "res://.import/sonartest.png-75720481dbc08ba0e056acb2f69645b2.stex" ]
+source_file="res://assets/sonartest.png"
+dest_files=[ "res://.import/sonartest.png-8dca1ab3441f3d048fb4336581a9804f.stex" ]
 
 [params]
 
