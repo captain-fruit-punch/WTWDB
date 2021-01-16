@@ -5,6 +5,7 @@ class_name Player
 export (int) var max_move_speed = 120
 export (int) var move_accel = 500
 export (float) var move_friction = 10
+export (float) var turnaround_friction = 5
 export (int) var weight = 100
 export (int) var max_fall_speed = 300
 var trying_to_move = false
@@ -32,13 +33,11 @@ func get_player_movement(delta):
 	if is_on_floor():
 		is_jumping = false
 		if trying_to_move and sign(velocity.x) * sign(accel.x) <0:
-			print("dragging")
-			accel.x *= move_friction
+			accel.x *= turnaround_friction
 		if not trying_to_move:
 			accel.x = velocity.x * -1 * move_friction
 		velocity.y = 0
 		if Input.is_action_pressed("ui_accept"):
-			print("ehlloe")
 			start_jump()
 	if is_jumping == true:
 		cur_jump_time += delta
@@ -48,6 +47,7 @@ func get_player_movement(delta):
 	if is_on_wall():
 		velocity.x = 0
 	if is_on_ceiling():
+		
 		velocity.y = 0
 
 func start_jump():

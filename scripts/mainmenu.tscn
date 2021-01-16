@@ -37,7 +37,7 @@ margin_bottom = 270.0
 
 [node name="titlebox" type="CenterContainer" parent="menu/div"]
 margin_right = 480.0
-margin_bottom = 135.0
+margin_bottom = 152.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="menu/div/titlebox"]
 margin_left = 21.0
@@ -82,49 +82,49 @@ texture = ExtResource( 4 )
 flip_h = true
 
 [node name="optionsbox" type="VBoxContainer" parent="menu/div"]
-margin_top = 135.0
+margin_top = 156.0
 margin_right = 480.0
-margin_bottom = 260.0
+margin_bottom = 270.0
 size_flags_vertical = 3
 
 [node name="CenterContainer3" type="CenterContainer" parent="menu/div/optionsbox"]
 margin_right = 480.0
-margin_bottom = 39.0
+margin_bottom = 35.0
 size_flags_vertical = 3
 
 [node name="load" type="TextureButton" parent="menu/div/optionsbox/CenterContainer3"]
 margin_left = 215.0
-margin_top = 5.0
+margin_top = 3.0
 margin_right = 265.0
-margin_bottom = 33.0
+margin_bottom = 31.0
 texture_normal = ExtResource( 9 )
 script = ExtResource( 2 )
 
 [node name="CenterContainer2" type="CenterContainer" parent="menu/div/optionsbox"]
-margin_top = 43.0
+margin_top = 39.0
 margin_right = 480.0
-margin_bottom = 82.0
+margin_bottom = 74.0
 size_flags_vertical = 3
 
 [node name="new" type="TextureButton" parent="menu/div/optionsbox/CenterContainer2"]
 margin_left = 215.0
-margin_top = 5.0
+margin_top = 3.0
 margin_right = 265.0
-margin_bottom = 33.0
+margin_bottom = 31.0
 texture_normal = ExtResource( 8 )
 script = ExtResource( 1 )
 
 [node name="CenterContainer" type="CenterContainer" parent="menu/div/optionsbox"]
-margin_top = 86.0
+margin_top = 78.0
 margin_right = 480.0
-margin_bottom = 125.0
+margin_bottom = 114.0
 size_flags_vertical = 3
 
 [node name="option" type="TextureButton" parent="menu/div/optionsbox/CenterContainer"]
 margin_left = 200.0
-margin_top = 5.0
+margin_top = 4.0
 margin_right = 280.0
-margin_bottom = 33.0
+margin_bottom = 32.0
 texture_normal = ExtResource( 6 )
 script = ExtResource( 3 )
 [connection signal="pressed" from="menu/div/optionsbox/CenterContainer3/load" to="menu" method="_on_load_pressed"]
