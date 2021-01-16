@@ -7,17 +7,14 @@ export (int) var move_accel = 500
 export (float) var move_friction = 10
 export (int) var weight = 100
 export (int) var max_fall_speed = 300
-export (int) var jump_up_speed = 12000
-export (int) var jump_down_speed = 8000
-export (float) var jump_curve = 0.1
-export (float) var jump_time = 0.5
-export (float) var jump_float_time = 0.05
 var trying_to_move = false
 var velocity = Vector2()
 var accel = Vector2()
 var is_jumping = false
-var time_in_jump = 0
-
+var cur_jump_time = 0
+export (int)var jump_acceleration = 15000
+export (float)var jump_acceleration_time = 0.5
+export (int)var jump_liftoff_speed = 10000
 
 func get_player_movement(delta):
 	trying_to_move = false
@@ -29,45 +26,37 @@ func get_player_movement(delta):
 		accel.x -= move_accel
 		trying_to_move = true
 	if trying_to_move:
-		if velocity.x >= max_move_speed:
+		if abs(velocity.x) >= max_move_speed and  sign(velocity.x) * sign(accel.x) >0:
 			accel.x = 0
+	accel.y += weight
 	if is_on_floor():
+		is_jumping = false
 		if trying_to_move and sign(velocity.x) * sign(accel.x) <0:
 			print("dragging")
 			accel.x *= move_friction
 		if not trying_to_move:
 			accel.x = velocity.x * -1 * move_friction
 		velocity.y = 0
-		end_jump()
-		if Input.is_action_just_pressed("ui_accept"):
-			is_jumping = true
-	if is_jumping:
-		if time_in_jump >= jump_time:
-			print("ending jump")
-			end_jump()
-		else:
-			print(jump_time/2-time_in_jump)
-			if time_in_jump < (jump_time-jump_float_time)/2:
-				# up
-				velocity.y = -pow(jump_time/2 - time_in_jump, jump_curve) * jump_up_speed
-			elif time_in_jump < (jump_time-jump_float_time)/2+jump_float_time:
-				# float
-				print("floating")
-				velocity.y = 0
-			else:
-				# down
-				velocity.y = pow(time_in_jump -jump_time/2, jump_curve) * jump_down_speed
-			time_in_jump += delta
-	else:
-		accel.y = weight
+		if Input.is_action_pressed("ui_accept"):
+			print("ehlloe")
+			start_jump()
+	if is_jumping == true:
+		cur_jump_time += delta
+		if Input.is_action_pressed("ui_accept"):
+			if cur_jump_time <= jump_acceleration_time:
+				accel.y -= jump_acceleration 
 	if is_on_wall():
 		velocity.x = 0
+	if is_on_ceiling():
+		velocity.y = 0
 
-func end_jump():
-	is_jumping = false
-	time_in_jump = 0
+func start_jump():
+	velocity.y -= jump_liftoff_speed
+	cur_jump_time = 0
+	is_jumping = true
+
 func _physics_process(delta):
 	get_player_movement(delta)
 	velocity += accel * delta
-	#print(velocity.y)
+#	print(velocity)
 	move_and_slide(velocity * delta, -transform.y)
