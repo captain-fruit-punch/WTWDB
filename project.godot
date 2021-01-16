@@ -27,7 +27,6 @@ _global_script_class_icons={
 [application]
 
 config/name="WTWDB"
-run/main_scene="res://javelintest.tscn"
 config/icon="res://icon.png"
 
 [rendering]
