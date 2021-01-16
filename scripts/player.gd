@@ -18,8 +18,8 @@ var accel = Vector2()
 var is_jumping = false
 var time_in_jump = 0
 
+
 func get_player_movement(delta):
-    # Detect up/down/left/right keystate and only move when pressed.
 	trying_to_move = false
 	accel = Vector2()
 	if Input.is_action_pressed('ui_right'):
