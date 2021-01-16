@@ -9,7 +9,7 @@ var character_facing = 1
 func _ready():
 	add_to_group("javelins")
 
-export (float) var speed = 100 * character_facing
+export (float) var speed = 1 * character_facing
 func _physics_process(delta):
 	var javhit = move_and_collide(Vector2(cos(rotation), sin(rotation)) * speed * delta)
 	if javhit:
@@ -19,7 +19,12 @@ func _physics_process(delta):
 			tile_pos -= javhit.normal
 			var tile_id = javhit.collider.get_cellv(tile_pos)
 			var tile_name = javhit.collider.tile_set.tile_get_name(tile_id)
-			print(tile_name)
+			
+			var javform = load("res://javplatform.tscn")
+			var platform = javform.instance()
+			get_tree().root.get_child(0).add_child(platform)
+			platform.position = self.position
+			queue_free()
 
 
 

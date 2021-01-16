@@ -68,7 +68,7 @@ position = Vector2( 25.8594, 47.4703 )
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
-position = Vector2( -0.529739, 0.863442 )
+position = Vector2( 0.000591636, -0.197215 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="player"]
@@ -84,7 +84,7 @@ tile_data = PoolIntArray( 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0
 [node name="javelin" type="KinematicBody2D" parent="."]
 position = Vector2( 54.1928, 45.4148 )
 script = ExtResource( 2 )
-speed = 125.0
+speed = 30.0
 
 [node name="javelincollision" type="CollisionShape2D" parent="javelin"]
 position = Vector2( 7.38885, -1.46854 )
