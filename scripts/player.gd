@@ -28,6 +28,9 @@ func get_player_movement(delta):
 	if Input.is_action_pressed('ui_left'):
 		accel.x -= move_accel
 		trying_to_move = true
+	if trying_to_move:
+		if velocity.x >= max_move_speed:
+			accel.x = 0
 	if is_on_floor():
 		if trying_to_move and sign(velocity.x) * sign(accel.x) <0:
 			print("dragging")

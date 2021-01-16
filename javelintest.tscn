@@ -1,7 +1,7 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scripts/player.gd" type="Script" id=1]
-[ext_resource path="res://javelin.gd" type="Script" id=2]
+[ext_resource path="res://javelin.tscn" type="PackedScene" id=2]
 [ext_resource path="res://playertestrect.png" type="Texture" id=3]
 [ext_resource path="res://testtiles0.png" type="Texture" id=4]
 
@@ -58,9 +58,6 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 } ]
 1/z_index = 0
 
-[sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 3.25894, 3.66654 )
-
 [node name="playertestscene" type="Node2D"]
 
 [node name="player" type="KinematicBody2D" parent="."]
@@ -81,17 +78,4 @@ cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131083, 0, 0, 196615, 1, 0, 196616, 1, 0, 196617, 1, 0, 196618, 1, 0, 196619, 1, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 1, 0, 262152, 1, 0, 262153, 1, 0, 262154, 1, 0, 262155, 1, 0, 327682, 1, 0, 327683, 1, 0, 327684, 1, 0, 327685, 1, 0, 327686, 1, 0, 327687, 1, 0, 327688, 1, 0, 327689, 1, 0, 327690, 1, 0, 327691, 1, 0, 393218, 1, 0, 393219, 1, 0, 393220, 1, 0, 393221, 1, 0, 393222, 1, 0, 393223, 1, 0, 393224, 1, 0, 393225, 1, 0, 393226, 1, 0, 393227, 1, 0 )
 
-[node name="javelin" type="KinematicBody2D" parent="."]
-position = Vector2( 54.1928, 45.4148 )
-script = ExtResource( 2 )
-speed = 30.0
-
-[node name="javelincollision" type="CollisionShape2D" parent="javelin"]
-position = Vector2( 7.38885, -1.46854 )
-shape = SubResource( 5 )
-
-[node name="Sprite" type="Sprite" parent="javelin"]
-position = Vector2( -5.88625, -1.6083 )
-texture = ExtResource( 4 )
-region_enabled = true
-region_rect = Rect2( 94, 4.5, 33, 7 )
+[node name="javelin" parent="." instance=ExtResource( 2 )]
