@@ -13,7 +13,7 @@ var velocity = Vector2()
 var accel = Vector2()
 
 func get_input():
-    # Detect up/down/left/right keystate and only move when pressed.
+	# Detect up/down/left/right keystate and only move when pressed.
 	trying_to_move = false
 	accel = Vector2()
 	if Input.is_action_pressed('ui_right'):
