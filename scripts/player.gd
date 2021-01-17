@@ -18,6 +18,7 @@ export (int)var jump_acceleration = 16000
 export (float)var jump_acceleration_time = 0.5
 export (int)var jump_liftoff_speed = 7000
 signal player_damage
+var javTime = 0
 
 func _ready():
 	pass
@@ -43,7 +44,6 @@ func get_player_movement(delta):
 			accel.x *= turnaround_friction
 		if not trying_to_move:
 			accel.x = velocity.x * -1 * move_friction
-		velocity.y = 0
 		if Input.is_action_pressed("ui_accept"):
 			start_jump()
 	if is_jumping == true:
@@ -57,7 +57,17 @@ func get_player_movement(delta):
 		velocity.y = 0
 
 func start_jump():
-	velocity.y -= jump_liftoff_speed
+	for i in get_slide_count():
+		var collision = get_slide_collision(i)
+		if collision.collider.name == "javplatform":
+			var velocitybuf = velocity.y
+			velocity.y = 0
+			velocity.y = -(javTime/180 * jump_liftoff_speed + velocitybuf)
+			javTime = 0
+			if collision.collider.has_signal("spring_jump"):
+				collision.collider.emit_signal("spring_jump")
+		else:
+			velocity.y = -jump_liftoff_speed
 	cur_jump_time = 0
 	is_jumping = true
 
@@ -66,6 +76,13 @@ func _physics_process(delta):
 
 	velocity += accel * delta
 	move_and_slide(velocity * delta, -transform.y)
+	
+	for i in get_slide_count():
+		var collision = get_slide_collision(i)
+		if collision.collider.name == "javplatform":
+			javTime += 1
+			if collision.collider.has_signal("javelin_contact"):
+				collision.collider.emit_signal("javelin_contact")
 
 
 func _on_player_player_damage():

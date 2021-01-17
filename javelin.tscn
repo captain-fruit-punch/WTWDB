@@ -4,19 +4,19 @@
 [ext_resource path="res://assets/testtiles0.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 3.25894, 3.66654 )
+extents = Vector2( 0.693855, 1.26007 )
 
 [node name="javelin" type="KinematicBody2D"]
-position = Vector2( 54.1928, 45.4148 )
+position = Vector2( -0.201908, -0.1366 )
 script = ExtResource( 1 )
 speed = 30.0
 
 [node name="javelincollision" type="CollisionShape2D" parent="."]
-position = Vector2( 7.38885, -1.46854 )
+position = Vector2( 0.0419655, -0.00771356 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -5.88625, -1.6083 )
+position = Vector2( -15.9027, -0.314328 )
 texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 94, 4.5, 33, 7 )
