@@ -63,6 +63,7 @@ func start_jump():
 
 func _physics_process(delta):
 	get_player_movement(delta)
+
 	velocity += accel * delta
 	move_and_slide(velocity * delta, -transform.y)
 

@@ -21,7 +21,7 @@ func _on_load_pressed():
 
 
 func _on_new_pressed():
-	pass # Replace with function body.
+	get_tree().change_scene("res://movingplatform.tscn")
 
 
 func _on_option_pressed():

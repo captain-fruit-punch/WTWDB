@@ -1,9 +1,17 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://scripts/player.gd" type="Script" id=1]
-[ext_resource path="res://javelin.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assets/playertestrect.png" type="Texture" id=3]
-[ext_resource path="res://assets/testtiles0.png" type="Texture" id=4]
+[ext_resource path="res://assets/sonartest.png" type="Texture" id=1]
+[ext_resource path="res://scripts/movingplatform.gd" type="Script" id=2]
+[ext_resource path="res://scripts/javelin.gd" type="Script" id=3]
+[ext_resource path="res://javelin.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/testtiles0.png" type="Texture" id=5]
+[ext_resource path="res://assets/playertestrect.png" type="Texture" id=6]
+[ext_resource path="res://scripts/player.gd" type="Script" id=7]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 2.00059, 1.95291 )
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 8, 16 )
@@ -16,7 +24,7 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 
 [sub_resource type="TileSet" id=4]
 0/name = "testtiles0.png 0"
-0/texture = ExtResource( 4 )
+0/texture = ExtResource( 5 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 16, 16 )
@@ -37,7 +45,7 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 } ]
 0/z_index = 0
 1/name = "testtiles0.png 1"
-1/texture = ExtResource( 4 )
+1/texture = ExtResource( 5 )
 1/tex_offset = Vector2( 0, 0 )
 1/modulate = Color( 1, 1, 1, 1 )
 1/region = Rect2( 0, 16, 16, 16 )
@@ -60,9 +68,30 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 
 [node name="playertestscene" type="Node2D"]
 
+[node name="movingplat" type="Node2D" parent="."]
+position = Vector2( 240.433, 83.6976 )
+
+[node name="movingplatform" type="RigidBody2D" parent="movingplat"]
+mode = 3
+gravity_scale = 0.0
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="movingplat/movingplatform"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="movingplat/movingplatform"]
+texture = ExtResource( 1 )
+
+[node name="bound" type="Area2D" parent="movingplat/movingplatform"]
+position = Vector2( 83.6421, 0.00499725 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="movingplat/movingplatform/bound"]
+shape = SubResource( 2 )
+disabled = true
+
 [node name="player" type="KinematicBody2D" parent="."]
-position = Vector2( 42, 47 )
-script = ExtResource( 1 )
+position = Vector2( 129.935, 129.638 )
+script = ExtResource( 7 )
 move_accel = 5000
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
@@ -72,13 +101,16 @@ one_way_collision_margin = 66.9
 
 [node name="Sprite" type="Sprite" parent="player"]
 scale = Vector2( 2, 2 )
-texture = ExtResource( 3 )
+texture = ExtResource( 6 )
 
 [node name="TileMap" type="TileMap" parent="."]
+position = Vector2( 87.9354, 82.6381 )
 tile_set = SubResource( 4 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 65543, 0, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131083, 0, 0, 196615, 1, 0, 196616, 1, 0, 196617, 1, 0, 196618, 1, 0, 196619, 1, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 1, 0, 262152, 1, 0, 262153, 1, 0, 262154, 1, 0, 262155, 1, 0, 327682, 1, 0, 327683, 1, 0, 327684, 1, 0, 327685, 1, 0, 327686, 1, 0, 327687, 1, 0, 327688, 1, 0, 327689, 1, 0, 327690, 1, 0, 327691, 1, 0, 393218, 1, 0, 393219, 1, 0, 393220, 1, 0, 393221, 1, 0, 393222, 1, 0, 393223, 1, 0, 393224, 1, 0, 393225, 1, 0, 393226, 1, 0, 393227, 1, 0 )
 
-[node name="javelin" parent="." instance=ExtResource( 2 )]
-position = Vector2( 55.607, 28.2674 )
+[node name="javelin" type="KinematicBody2D" parent="." instance=ExtResource( 4 )]
+position = Vector2( 143.542, 110.906 )
+script = ExtResource( 3 )
+speed = 30.0
