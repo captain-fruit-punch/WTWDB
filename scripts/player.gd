@@ -30,12 +30,26 @@ var keep_javelin = null
 
 var numjavs = 0
 
+var velocitybuf = 0
+var landinganim = 0
+var pivotanim = 0
+var pivoting = false
+onready var animation = get_node("./Sprite")
+
 signal player_stationary
 
 func _ready():
 	connect("javelin_in", self, "_javelin_in")
 
 func get_player_movement(delta):
+	if on_spring:
+		animation.animation = "landing"
+	
+	if right_face:
+		animation.flip_h = false
+	else:
+		animation.flip_h = true
+
 	trying_to_move = false
 	accel = Vector2()
 	if !on_spring and not is_disabled:
@@ -50,17 +64,32 @@ func get_player_movement(delta):
 		if trying_to_move:
 			if abs(velocity.x) >= max_move_speed and  sign(velocity.x) * sign(accel.x) >0:
 				accel.x = 0
+			if animation.animation != "jump" and !landinganim and !pivoting:
+				animation.animation = "rightwalk"
 	accel.y += weight
 	if is_on_floor():
 		# sends to let the dialouge know that the player is stationary and not moving
 		if abs(velocity.x) < 1:
 			emit_signal("player_stationary")
+		if velocity.y > 10:
+			velocitybuf = velocity.y
+		if velocitybuf > 0:
+			animation.animation = "landing"
+			landinganim += 1
+			if landinganim > 18:
+				velocitybuf = 0
+				landinganim = 0
 		velocity.y = 0
 		is_jumping = false
+		if trying_to_move and !landinganim and animation.animation != "pivot":
+			animation.animation = "rightwalk"
 		if trying_to_move and sign(velocity.x) * sign(accel.x) <0:
 			accel.x *= turnaround_friction
+			pivoting = true
 		if not trying_to_move:
 			accel.x = velocity.x * -1 * move_friction
+			if animation.animation != "standing" and !landinganim and !pivoting:
+				animation.animation = "standing"
 		if Input.is_action_pressed("ui_accept") and not is_disabled:
 			start_jump()
 	if is_jumping == true:
@@ -72,10 +101,21 @@ func get_player_movement(delta):
 		on_spring = false
 		javTime = 0
 	if is_on_wall():
-		velocity.x = 0
+		velocity.x /= 20.0
 	if is_on_ceiling():
 		cur_jump_time = jump_acceleration_time
 		velocity.y = 0
+		
+		
+	if velocity.y > 0 and animation.animation != "falling" and !is_on_wall():
+		animation.animation = "falling"
+	
+	if pivoting:
+		animation.animation = "pivot"
+		pivotanim += 1
+		if pivotanim > 2:
+			pivoting = false
+			pivotanim = 0
 		
 	if Input.is_action_just_pressed("actionkey") and not is_disabled:
 		if selected_item == "javelin":
@@ -107,6 +147,8 @@ func _javelin_in():
 	JAVELIN_OUT = false
 
 func start_jump():
+	if animation.animation != "jump":
+		animation.animation = "jump"
 	if on_spring:
 		velocity.y = -(javTime/30 * jump_liftoff_speed/1.3) - 20
 		print("V", velocity.y, "J", javTime)

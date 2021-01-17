@@ -4,7 +4,7 @@
 [ext_resource path="res://scripts/javplatform.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 6.799, 1.33002 )
+extents = Vector2( 8.48558, 1.33002 )
 
 [node name="javplatform" type="Node2D"]
 
@@ -13,11 +13,6 @@ mode = 1
 gravity_scale = 0.0
 script = ExtResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="javplatform"]
-position = Vector2( -26.0928, -0.198421 )
-shape = SubResource( 1 )
-one_way_collision = true
-
 [node name="pivot" type="Node2D" parent="javplatform"]
 
 [node name="Sprite" type="Sprite" parent="javplatform/pivot"]
@@ -25,3 +20,8 @@ position = Vector2( -16.2708, -0.0992107 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 94, 4.5, 33, 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="javplatform"]
+position = Vector2( -24.5054, 2.38419e-06 )
+shape = SubResource( 1 )
+one_way_collision = true
