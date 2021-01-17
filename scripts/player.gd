@@ -54,13 +54,9 @@ func start_jump():
 	cur_jump_time = 0
 	is_jumping = true
 
-func on_moving_platform(delta):
-	if is_on_floor():
-		position = position.move_toward(Vector2(),delta/velocity)
-
 func _physics_process(delta):
 	get_player_movement(delta)
-#	on_moving_platform(delta)
+
 	velocity += accel * delta
 #	print(velocity)
 	move_and_slide(velocity * delta, -transform.y)

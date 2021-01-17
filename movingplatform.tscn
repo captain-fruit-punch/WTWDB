@@ -69,7 +69,7 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 [node name="playertestscene" type="Node2D"]
 
 [node name="movingplat" type="Node2D" parent="."]
-position = Vector2( 310.358, 177.46 )
+position = Vector2( 240.433, 83.6976 )
 
 [node name="movingplatform" type="RigidBody2D" parent="movingplat"]
 mode = 3
@@ -83,7 +83,7 @@ shape = SubResource( 1 )
 texture = ExtResource( 1 )
 
 [node name="bound" type="Area2D" parent="movingplat/movingplatform"]
-position = Vector2( -0.58522, -67.2709 )
+position = Vector2( 83.6421, 0.00499725 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="movingplat/movingplatform/bound"]
 shape = SubResource( 2 )

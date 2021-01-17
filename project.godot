@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://scripts/player.gd"
+}, {
+"base": "RigidBody2D",
+"class": "movingplat",
+"language": "GDScript",
+"path": "res://scripts/movingplatform.gd"
 } ]
 _global_script_class_icons={
 "Javelin": "",
-"Player": ""
+"Player": "",
+"movingplat": ""
 }
 
 [application]
