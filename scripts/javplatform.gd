@@ -73,6 +73,7 @@ func _spring_jump():
 	contact_time = 0
 	
 func _delete():
+	print('ashidoas')
 	get_node("./CollisionShape2D").set_disabled(true)
 	JAV_FLY = true
 

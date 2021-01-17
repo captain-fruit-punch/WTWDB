@@ -101,6 +101,7 @@ func javelin_throw():
 				projectile.emit_signal("left_face")
 		JAVELIN_OUT = true
 	else:
+		print(keep_javelin)
 		keep_javelin.emit_signal("delete")
 		keep_javelin = null
 
@@ -143,7 +144,7 @@ func _physics_process(delta):
 				collision.collider.emit_signal("javelin_contact")
 	
 	if get_node("./Sprite").position.y > 0:
-				get_node("./Sprite").position = get_node("./Sprite").position.move_toward(Vector2(0,0),delta*70)
+		get_node("./Sprite").position = get_node("./Sprite").position.move_toward(Vector2(0,0),delta*70)
 
 
 func _on_player_player_damage():
@@ -151,7 +152,7 @@ func _on_player_player_damage():
 	is_disabled = true
 	velocity = Vector2()
 	accel = Vector2()
-	keep_javelin.emit_signal("delete")
+	keep_javelin.queue_free()
 	keep_javelin = null
 	get_tree().call_group("Player_Spawner", "_player_died")
 

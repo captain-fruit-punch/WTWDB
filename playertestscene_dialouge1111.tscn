@@ -209,6 +209,7 @@ region_rect = Rect2( 32, 16, 16, 16 )
 pause_mode = 2
 
 [node name="Dialouge_Panel" parent="CanvasLayer" instance=ExtResource( 7 )]
+visible = false
 
 [node name="Dialougetest" type="Node2D" parent="."]
 position = Vector2( 228, 224 )
