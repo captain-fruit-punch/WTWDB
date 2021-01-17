@@ -1,13 +1,15 @@
 extends Node2D
 
+var standing = false
+
 func _process(delta):
 	$Label.text = str($Breaking_Timer.time_left)
 
 func _on_Break_Detection_body_entered(body):
 	if(body.is_in_group("activate_breaking_platforms")) and $Breaking_Timer.time_left <= 0 and $Regen_Timer.time_left <= 0:
 		print("started breaking")
-		$Unstable_Tile_Collider/AnimatedSprite.animation = "unsteady"
-		$Breaking_Timer.start()
+		standing = true
+		$Until_Breaking.start()
 
 func _on_Regen_Timer_timeout():
 	$Unstable_Tile_Collider.visible = true
@@ -21,4 +23,11 @@ func _on_Breaking_Timer_timeout():
 
 
 func _on_Break_Detection_body_exited(body):
-	pass
+	if(body.is_in_group("activate_breaking_platforms")):
+		standing = false
+
+
+func _on_Until_Breaking_timeout():
+	if standing:
+		$Unstable_Tile_Collider/AnimatedSprite.animation = "unsteady"
+		$Breaking_Timer.start()
