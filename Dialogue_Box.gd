@@ -9,6 +9,7 @@ var return_obj
 var in_dialouge = false
 
 signal dialouge_starting
+signal dialouge_ending
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -27,7 +28,6 @@ func _sent_dialouge(title, text, profile, _prompt_array, _return_obj = null):
 	in_dialouge = true
 	visible = true
 	for i in $Panel/VSplitContainer/CenterContainer/Response_Container.get_children():
-		print(i.name)
 		i.queue_free()
 		
 	$Panel/VSplitContainer/Title.text = title
@@ -40,12 +40,13 @@ func _sent_dialouge(title, text, profile, _prompt_array, _return_obj = null):
 		_start_interaction()
 		
 func _end_dialouge():
-	print("end dialong")
-	get_tree().paused = false
+	emit_signal("dialouge_ending")
+	get_tree().set_pause(false)
 	visible = false
+	in_dialouge=false
 
 func _start_interaction():
-	get_tree().paused = true
+	get_tree().set_pause(true)
 	_show_buttons()
 	
 func _player_is_ready():
