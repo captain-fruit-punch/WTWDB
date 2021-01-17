@@ -6,9 +6,10 @@ extends Control
 # var b = "text"
 var prompt_array = []
 var return_obj
-var dialouge_init = false
+var in_dialouge = false
 
 signal dialouge_starting
+signal dialouge_ending
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,24 +22,35 @@ func _ready():
 
 func _sent_dialouge(title, text, profile, _prompt_array, _return_obj = null):
 	emit_signal("dialouge_starting")
-	dialouge_init = true
+	var cont = false
+	if(in_dialouge):
+		cont = true
+	in_dialouge = true
 	visible = true
 	for i in $Panel/VSplitContainer/CenterContainer/Response_Container.get_children():
 		i.queue_free()
+		
 	$Panel/VSplitContainer/Title.text = title
 	$Panel/VSplitContainer/Text.text = text
 	if(profile):
 		$Panel/Profile_Picture.texture = profile
 	prompt_array = _prompt_array
 	return_obj = _return_obj
+	if cont:
+		_start_interaction()
+		
+func _end_dialouge():
+	emit_signal("dialouge_ending")
+	get_tree().set_pause(false)
+	visible = false
+	in_dialouge=false
 
 func _start_interaction():
-	get_tree().paused = true
+	get_tree().set_pause(true)
 	_show_buttons()
 	
 func _player_is_ready():
-	if(dialouge_init):
-		dialouge_init = false
+	if(in_dialouge):
 		_start_interaction()
 
 func _show_buttons():
@@ -47,6 +59,7 @@ func _show_buttons():
 		$Panel/VSplitContainer/CenterContainer/Response_Container.add_child(newbutton)
 		newbutton.visible = true
 		newbutton.name = str(i)
+		newbutton.button_id = i
 		newbutton.text = prompt_array[i]
 		newbutton.connect("special_button_activated", self, "_button_pressed")
 

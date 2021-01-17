@@ -37,6 +37,9 @@ func _spawn_player():
 
 func disable_player():
 	player._player_interact_pause()
+	
+func enable_player():
+	player._player_interact_unpause()
 
 func _on_death_timer_timeout():
 	print("death complete")

@@ -1,0 +1,83 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://scripts/Unstable_Tile.gd" type="Script" id=1]
+[ext_resource path="res://assets/tempusntableplat0.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 2 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 2 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 2 )
+region = Rect2( 32, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "unsteady",
+"speed": 12.0
+}, {
+"frames": [ SubResource( 5 ) ],
+"loop": true,
+"name": "steady",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 8, 2.5 )
+
+[node name="Unstable_Tile" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Unstable_Tile_Collider" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Unstable_Tile_Collider"]
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Unstable_Tile_Collider"]
+position = Vector2( 0, 6 )
+frames = SubResource( 6 )
+animation = "steady"
+playing = true
+
+[node name="Breaking_Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Regen_Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Break_Detection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Break_Detection"]
+position = Vector2( 0, -0.5 )
+shape = SubResource( 7 )
+
+[node name="Label" type="Label" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 14.0
+text = "ads"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Until_Breaking" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+[connection signal="timeout" from="Breaking_Timer" to="." method="_on_Breaking_Timer_timeout"]
+[connection signal="timeout" from="Regen_Timer" to="." method="_on_Regen_Timer_timeout"]
+[connection signal="body_entered" from="Break_Detection" to="." method="_on_Break_Detection_body_entered"]
+[connection signal="body_exited" from="Break_Detection" to="." method="_on_Break_Detection_body_exited"]
+[connection signal="timeout" from="Until_Breaking" to="." method="_on_Until_Breaking_timeout"]

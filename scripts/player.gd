@@ -192,8 +192,9 @@ func _on_player_player_damage():
 	is_disabled = true
 	velocity = Vector2()
 	accel = Vector2()
-	keep_javelin.queue_free()
-	keep_javelin = null
+	if keep_javelin:
+		keep_javelin.queue_free()
+		keep_javelin = null
 	get_tree().call_group("Player_Spawner", "_player_died")
 
 func _player_interact_pause():

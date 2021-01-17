@@ -5,6 +5,7 @@ extends Button
 # var a = 2
 # var b = "text"
 signal special_button_activated(num)
+var button_id
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -12,4 +13,4 @@ func _ready():
 
 
 func _button_activated():
-	emit_signal("special_button_activated", int(name))
+	emit_signal("special_button_activated", button_id)

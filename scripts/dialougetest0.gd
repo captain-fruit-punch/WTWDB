@@ -21,4 +21,8 @@ func _on_Area2D_body_entered(body):
 		get_tree().root.get_child(0).global_dialouge._sent_dialouge("hello", "testing", null, ["texthere", "textthere"], self)
 
 func _response(num):
-	get_tree().root.get_child(0).global_dialouge._sent_dialouge("next screen", "ads", null, ["rgr", "texttesfhere"], self)
+	print(num)
+	if num ==1:
+		get_tree().root.get_child(0).global_dialouge._end_dialouge()
+	else:
+		get_tree().root.get_child(0).global_dialouge._sent_dialouge("next screen", "ads", null, ["rgr", "texttesfhere"], self)
