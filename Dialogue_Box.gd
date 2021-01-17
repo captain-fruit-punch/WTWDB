@@ -6,7 +6,7 @@ extends Control
 # var b = "text"
 var prompt_array = []
 var return_obj
-var dialouge_init = false
+var in_dialouge = false
 
 signal dialouge_starting
 
@@ -21,24 +21,35 @@ func _ready():
 
 func _sent_dialouge(title, text, profile, _prompt_array, _return_obj = null):
 	emit_signal("dialouge_starting")
-	dialouge_init = true
+	var cont = false
+	if(in_dialouge):
+		cont = true
+	in_dialouge = true
 	visible = true
 	for i in $Panel/VSplitContainer/CenterContainer/Response_Container.get_children():
+		print(i.name)
 		i.queue_free()
+		
 	$Panel/VSplitContainer/Title.text = title
 	$Panel/VSplitContainer/Text.text = text
 	if(profile):
 		$Panel/Profile_Picture.texture = profile
 	prompt_array = _prompt_array
 	return_obj = _return_obj
+	if cont:
+		_start_interaction()
+		
+func _end_dialouge():
+	print("end dialong")
+	get_tree().paused = false
+	visible = false
 
 func _start_interaction():
 	get_tree().paused = true
 	_show_buttons()
 	
 func _player_is_ready():
-	if(dialouge_init):
-		dialouge_init = false
+	if(in_dialouge):
 		_start_interaction()
 
 func _show_buttons():
@@ -47,6 +58,7 @@ func _show_buttons():
 		$Panel/VSplitContainer/CenterContainer/Response_Container.add_child(newbutton)
 		newbutton.visible = true
 		newbutton.name = str(i)
+		newbutton.button_id = i
 		newbutton.text = prompt_array[i]
 		newbutton.connect("special_button_activated", self, "_button_pressed")
 
