@@ -150,7 +150,7 @@ func start_jump():
 	if animation.animation != "jump":
 		animation.animation = "jump"
 	if on_spring:
-		velocity.y = -(javTime/30 * jump_liftoff_speed/1.3) - 20
+		velocity.y = 150
 		print("V", velocity.y, "J", javTime)
 		javTime = 0
 		on_spring = false
@@ -178,7 +178,7 @@ func _physics_process(delta):
 		var collision = get_slide_collision(i)
 		if collision.collider.name == "javplatform":
 			on_spring = true
-			javTime += 1
+			javTime += delta
 			get_node("./Sprite").position.y += 1
 			if collision.collider.has_signal("javelin_contact"):
 				collision.collider.emit_signal("javelin_contact")
