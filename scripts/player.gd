@@ -2,20 +2,20 @@ extends KinematicBody2D
 
 class_name Player
 
-export (int) var max_move_speed = 120
-export (int) var move_accel = 500
-export (float) var move_friction = 10
+export (int) var max_move_speed = 5000
+export (int) var move_accel = 7000
+export (float) var move_friction = 15
 export (float) var turnaround_friction = 5
-export (int) var weight = 100
+export (int) var weight = 18000
 export (int) var max_fall_speed = 300
 var trying_to_move = false
 var velocity = Vector2()
 var accel = Vector2()
 var is_jumping = false
 var cur_jump_time = 0
-export (int)var jump_acceleration = 15000
+export (int)var jump_acceleration = 16000
 export (float)var jump_acceleration_time = 0.5
-export (int)var jump_liftoff_speed = 10000
+export (int)var jump_liftoff_speed = 7000
 
 func get_player_movement(delta):
 	trying_to_move = false
