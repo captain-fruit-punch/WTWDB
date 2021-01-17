@@ -36,6 +36,7 @@ func _physics_process(delta):
 			var platform = javform.instance()
 			platform.name = "javplatform"
 			platform.get_node("javplatform").owner_player = owner_player
+			owner_player.keep_javelin = platform.get_node("javplatform")
 			get_tree().root.get_child(0).add_child(platform)
 			platform.position = self.position
 			platform.scale.x = character_facing

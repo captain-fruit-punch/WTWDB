@@ -22,6 +22,7 @@ func _ready():
 func _sent_dialouge(title, text, profile, _prompt_array, _return_obj = null):
 	emit_signal("dialouge_starting")
 	dialouge_init = true
+	visible = true
 	for i in $Panel/VSplitContainer/CenterContainer/Response_Container.get_children():
 		i.queue_free()
 	$Panel/VSplitContainer/Title.text = title
