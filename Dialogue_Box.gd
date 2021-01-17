@@ -32,7 +32,7 @@ func _sent_dialouge(title, text, profile, _prompt_array, _return_obj = null):
 	return_obj = _return_obj
 
 func _start_interaction():
-	#get_tree().paused = true
+	get_tree().paused = true
 	_show_buttons()
 	
 func _player_is_ready():
