@@ -9,6 +9,7 @@ signal spring_jump
 var contact_time = 0
 var facing = 1 #1 right, -1 left
 var accel = 1
+onready var spritey = get_node("./pivot")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -20,29 +21,36 @@ func _ready():
 
 func _physics_process(delta):
 	if facing == 1:
-		if contact_time == 0 and self.rotation_degrees < 0:
-			self.rotation_degrees += 4
+		if contact_time == 0 and spritey.rotation_degrees < 0:
+			spritey.rotation_degrees += 4
 			accel = 1
 	
-		if self.rotation_degrees < -60:
-			queue_free()
-	
+		if spritey.rotation_degrees < -65:
+			get_node("./CollisionShape2D").set_disabled(true)
+			contact_time = 0
+			
+		if spritey.rotation_degrees >= 0 and get_node("./CollisionShape2D").is_disabled():
+			get_node("./CollisionShape2D").set_disabled(false)
+			
 	elif facing == -1:
-		if contact_time == 0 and self.rotation_degrees > 0:
-			self.rotation_degrees -= 4
+		if contact_time == 0 and spritey.rotation_degrees > 0:
+			spritey.rotation_degrees -= 4
 			accel = 1
 	
-		if self.rotation_degrees > 65:
-			queue_free()
+		if spritey.rotation_degrees > 65:
+			get_node("./CollisionShape2D").set_disabled(true)
+			contact_time = 0
+
+		if spritey.rotation_degrees <= 0 and get_node("./CollisionShape2D").is_disabled():
+			get_node("./CollisionShape2D").set_disabled(false)
 	
 func _on_javplatform_javelin_contact():
 	contact_time += 1
-	self.rotation_degrees -= 0.6 * facing * accel
-	accel += 0.06
+	spritey.rotation_degrees -= 0.6 * facing * accel
+	accel *= 1.014
 	
 func _spring_jump():
 	contact_time = 0
-	self.set_deferred("disabled", true)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

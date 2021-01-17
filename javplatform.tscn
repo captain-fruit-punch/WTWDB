@@ -18,7 +18,9 @@ position = Vector2( -16.1716, -0.0992107 )
 shape = SubResource( 1 )
 one_way_collision = true
 
-[node name="Sprite" type="Sprite" parent="javplatform"]
+[node name="pivot" type="Node2D" parent="javplatform"]
+
+[node name="Sprite" type="Sprite" parent="javplatform/pivot"]
 position = Vector2( -16.1716, -0.0992107 )
 texture = ExtResource( 1 )
 region_enabled = true
