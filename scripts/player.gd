@@ -28,6 +28,8 @@ var selected_item = "javelin"
 var JAVELIN_LIMIT = 2
 var num_javelins = 0
 
+signal player_stationary
+
 func _ready():
 	num_javelins = 0
 
@@ -50,10 +52,12 @@ func get_player_movement(delta):
 				accel.x = 0
 	accel.y += weight
 	if is_on_floor():
-		get_tree().root.get_child(0).emit_signal("player_hit_ground")
+		# sends to let the dialouge know that the player is stationary and not moving
+		if abs(velocity.x) < 1:
+			emit_signal("player_stationary")
 		if velocity.y > 400:
 			velocitybuf = velocity.y
-		velocity.y = 400
+		velocity.y = 0
 		is_jumping = false
 		if trying_to_move and sign(velocity.x) * sign(accel.x) <0:
 			accel.x *= turnaround_friction
@@ -117,7 +121,7 @@ func _physics_process(delta):
 		velocity.y = TERMINAL_VELOCITY
 	elif velocity.y < -(TERMINAL_VELOCITY):
 		velocity.y = -(TERMINAL_VELOCITY)
-	move_and_slide(velocity * delta, -transform.y)
+	move_and_slide(velocity, -transform.y)
 	
 	for i in get_slide_count():
 		var collision = get_slide_collision(i)

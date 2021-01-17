@@ -203,7 +203,12 @@ region_rect = Rect2( 32, 16, 16, 16 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 98, 240 )
-move_accel = 10000
+max_move_speed = 600
+move_accel = 100
+weight = 200
+max_fall_speed = 100
+jump_acceleration = 120
+jump_liftoff_speed = 100
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

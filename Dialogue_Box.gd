@@ -6,6 +6,9 @@ extends Control
 # var b = "text"
 var prompt_array = []
 var return_obj
+var dialouge_init = false
+
+signal dialouge_starting
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,6 +20,8 @@ func _ready():
 #	pass
 
 func _sent_dialouge(title, text, profile, _prompt_array, _return_obj = null):
+	emit_signal("dialouge_starting")
+	dialouge_init = true
 	for i in $Panel/VSplitContainer/CenterContainer/Response_Container.get_children():
 		i.queue_free()
 	$Panel/VSplitContainer/Title.text = title
@@ -25,13 +30,15 @@ func _sent_dialouge(title, text, profile, _prompt_array, _return_obj = null):
 		$Panel/Profile_Picture.texture = profile
 	prompt_array = _prompt_array
 	return_obj = _return_obj
-	_show_buttons()
 
 func _start_interaction():
-	pass
+	#get_tree().paused = true
+	_show_buttons()
 	
 func _player_is_ready():
-	pass
+	if(dialouge_init):
+		dialouge_init = false
+		_start_interaction()
 
 func _show_buttons():
 	for i in range(0, prompt_array.size()):

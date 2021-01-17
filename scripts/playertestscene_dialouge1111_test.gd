@@ -7,11 +7,12 @@ extends Node2D
 onready var global_dialouge = $CanvasLayer/Dialouge_Panel
 onready var global_player_spawner = $Player_Spawner
 
-signal player_hit_ground
+signal player_stationary
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	connect("player_hit_ground", global_dialouge, "_player_is_ready")
+	global_player_spawner.player.connect("player_stationary", global_dialouge, "_player_is_ready")
+	global_dialouge.connect("dialouge_starting", global_player_spawner, "disable_player")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
