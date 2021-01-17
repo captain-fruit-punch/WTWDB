@@ -50,7 +50,7 @@ func _physics_process(delta):
 			
 	if JAV_FLY:
 		global_position = global_position.move_toward(get_node("../../player").position,50*delta*accel)
-		rotation = sin(get_node("../../player").position.y) + cos(get_node("../../player").position.x)
+		# MAKE JAVELIN ROTATE TO FACE PLAYER AS IT FLIES
 		accel *= 1.07
 		
 	if global_position.x > get_node("../../player").position.x - 0.01:
