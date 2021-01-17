@@ -1,6 +1,9 @@
 extends KinematicBody2D
 class_name Javelin
 
+signal right_face
+signal left_face
+
 # 1 if ->, -1 if <-
 var character_facing = 1
 
@@ -8,12 +11,21 @@ var character_facing = 1
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	add_to_group("javelins")
+	connect("right_face", self, "_right_face")
+	connect("left_face", self, "_left_face")
 
-export (float) var speed = 1 * character_facing
+func _right_face():
+	character_facing = 1
+	
+func _left_face():
+	character_facing = -1
+	self.scale.x = -1
+
+export (float) var speedz = 300 * character_facing
 func _physics_process(delta):
-	var javhit = move_and_collide(Vector2(cos(rotation), sin(rotation)) * speed * delta)
+	var javhit = move_and_collide(Vector2(cos(rotation), sin(rotation)) * speedz * delta)
 	if javhit:
-		speed = 0
+		speedz = 0
 		if javhit.collider is TileMap:
 			var tile_pos = javhit.collider.world_to_map(position)
 			tile_pos -= javhit.normal

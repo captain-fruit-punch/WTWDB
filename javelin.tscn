@@ -9,7 +9,6 @@ extents = Vector2( 0.693855, 1.26007 )
 [node name="javelin" type="KinematicBody2D"]
 position = Vector2( -0.201908, -0.1366 )
 script = ExtResource( 1 )
-speed = 30.0
 
 [node name="javelincollision" type="CollisionShape2D" parent="."]
 position = Vector2( 0.0419655, -0.00771356 )
