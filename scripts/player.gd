@@ -19,17 +19,19 @@ export (int)var jump_acceleration = 16000
 export (float)var jump_acceleration_time = 0.5
 export (int)var jump_liftoff_speed = 7000
 signal player_damage
-export (float) var javTime = 0
+signal javelin_in
+var javTime = 0
 var velocitybuf
 var TERMINAL_VELOCITY = 12000
 
 var right_face = true
 var selected_item = "javelin"
-var JAVELIN_LIMIT = 2
-var num_javelins = 0
+var JAVELIN_OUT = false
+
+var numjavs = 0
 
 func _ready():
-	num_javelins = 0
+	connect("javelin_in", self, "_javelin_in")
 
 func get_player_movement(delta):
 	if is_disabled:
@@ -78,24 +80,32 @@ func get_player_movement(delta):
 			javelin_throw()
 
 func javelin_throw():
-	if num_javelins < JAVELIN_LIMIT:
+	if !JAVELIN_OUT:
+		numjavs += 1
 		var javthrow = load("res://javelin.tscn")
 		var projectile = javthrow.instance()
 		get_tree().root.get_child(0).add_child(projectile)
+
 		if right_face:
 			projectile.position = Vector2(self.position.x + 16, self.position.y - 5)
 			if projectile.has_signal("right_face"):
 				projectile.emit_signal("right_face")
 		elif !right_face:
-			projectile.position = Vector2(self.position.x - 16, self.position.y - 5)
+			projectile.position = Vector2(self.position.x - 20, self.position.y - 5)
 			if projectile.has_signal("left_face"):
 				projectile.emit_signal("left_face")
-		num_javelins += 1
+		JAVELIN_OUT = true
+	elif JAVELIN_OUT:
+		if get_node("../javplatform" + str(numjavs) + "/javplatform"):
+			get_node("../javplatform" + str(numjavs) + "/javplatform").emit_signal("delete")
+
+func _javelin_in():
+	JAVELIN_OUT = false
 
 func start_jump():
 	if on_spring:
-		velocity.y = -(javTime/30.0 * jump_liftoff_speed + velocitybuf/2.5)
-		print("V", velocity.y, "J", javTime/30.0)
+		velocity.y = -(javTime/30 * jump_liftoff_speed + velocitybuf/2.5)
+		print("V", velocity.y, "J", javTime/30)
 		javTime = 0
 		on_spring = false
 	else:

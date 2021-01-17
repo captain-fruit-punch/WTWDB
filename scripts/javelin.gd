@@ -7,7 +7,6 @@ signal left_face
 # 1 if ->, -1 if <-
 var character_facing = 1
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	add_to_group("javelins")
@@ -34,8 +33,10 @@ func _physics_process(delta):
 			
 			var javform = load("res://javplatform.tscn")
 			var platform = javform.instance()
+			platform.name = "javplatform" + str(get_node("../player").numjavs)
 			get_tree().root.get_child(0).add_child(platform)
 			platform.position = self.position
+			platform.scale.x = character_facing
 			queue_free()
 
 

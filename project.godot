@@ -39,7 +39,7 @@ _global_script_class_icons={
 [application]
 
 config/name="WTWDB"
-run/main_scene="res://javelintest.tscn"
+run/main_scene="res://playertestscene.tscn"
 config/icon="res://assets/icon.png"
 
 [input]
