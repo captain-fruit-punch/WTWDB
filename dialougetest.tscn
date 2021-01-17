@@ -1,0 +1,63 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/bug0test.png" type="Texture" id=1]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -135.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Answers" type="GridContainer" parent="Panel"]
+margin_top = 31.0
+margin_right = 40.0
+margin_bottom = 71.0
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Panel"]
+position = Vector2( 412, 67 )
+scale = Vector2( 2, 2 )
+frames = SubResource( 1 )
+
+[node name="VSplitContainer" type="VBoxContainer" parent="Panel"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 348.0
+margin_bottom = 131.0
+grow_horizontal = 2
+grow_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Panel/VSplitContainer"]
+margin_right = 343.0
+margin_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Title"
+autowrap = true
+
+[node name="Text" type="Label" parent="Panel/VSplitContainer"]
+margin_top = 18.0
+margin_right = 343.0
+margin_bottom = 32.0
+text = "text"
+autowrap = true
