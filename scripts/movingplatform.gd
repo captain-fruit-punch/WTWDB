@@ -10,7 +10,7 @@ var direction = Vector2(1, 1)
 func _ready():
 	print("moving platform placed")
 
-onready var bound = get_node("/root/movingplat/bound")
+onready var bound = get_node("/root/playertestscene/movingplat/movingplatform/bound")
 var flip = true
 var speed = 20
 func _physics_process(delta):
@@ -20,7 +20,7 @@ func _physics_process(delta):
 		flip = true
 		
 	if flip:
-		position = position.move_toward(Vector2(get_node("/root/movingplat/bound").position.x, get_node("/root/movingplat/bound").position.y), delta*speed)
+		position = position.move_toward(Vector2(bound.position.x, bound.position.y), delta*speed)
 	elif not flip:
 		position = position.move_toward(Vector2(-(bound.position.x),-(bound.position.y)),delta*speed)
 	
