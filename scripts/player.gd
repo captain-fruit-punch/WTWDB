@@ -47,7 +47,6 @@ func get_player_movement(delta):
 	if is_on_wall():
 		velocity.x = 0
 	if is_on_ceiling():
-		
 		velocity.y = 0
 
 func start_jump():

@@ -15,6 +15,7 @@ script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="javplatform"]
 shape = SubResource( 1 )
+one_way_collision = true
 
 [node name="Sprite" type="Sprite" parent="javplatform"]
 texture = ExtResource( 1 )
