@@ -63,10 +63,7 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 [node name="player" type="KinematicBody2D" parent="."]
 position = Vector2( 25.8594, 47.4703 )
 script = ExtResource( 1 )
-max_move_speed = 5000
 move_accel = 5000
-move_friction = 15.0
-weight = 18000
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
 position = Vector2( 0.000591636, -0.197215 )
