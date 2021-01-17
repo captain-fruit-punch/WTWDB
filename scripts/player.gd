@@ -50,6 +50,7 @@ func get_player_movement(delta):
 				accel.x = 0
 	accel.y += weight
 	if is_on_floor():
+		get_tree().root.get_child(0).emit_signal("player_hit_ground")
 		if velocity.y > 400:
 			velocitybuf = velocity.y
 		velocity.y = 400
