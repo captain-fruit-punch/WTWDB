@@ -21,8 +21,7 @@ export (int)var jump_liftoff_speed = 7000
 signal player_damage
 signal javelin_in
 var javTime = 0
-var velocitybuf =0
-var TERMINAL_VELOCITY = 12000
+var TERMINAL_VELOCITY = 280
 
 var right_face = true
 var selected_item = "javelin"
@@ -56,8 +55,6 @@ func get_player_movement(delta):
 		# sends to let the dialouge know that the player is stationary and not moving
 		if abs(velocity.x) < 1:
 			emit_signal("player_stationary")
-		if velocity.y > 400:
-			velocitybuf = velocity.y
 		velocity.y = 0
 		is_jumping = false
 		if trying_to_move and sign(velocity.x) * sign(accel.x) <0:
@@ -73,6 +70,7 @@ func get_player_movement(delta):
 				accel.y -= jump_acceleration 
 	if !is_on_floor():
 		on_spring = false
+		javTime = 0
 	if is_on_wall():
 		velocity.x = 0
 	if is_on_ceiling():
@@ -110,8 +108,8 @@ func _javelin_in():
 
 func start_jump():
 	if on_spring:
-		velocity.y = -(javTime/30 * jump_liftoff_speed + velocitybuf/2.5)
-		print("V", velocity.y, "J", javTime/30)
+		velocity.y = -(javTime/30 * jump_liftoff_speed/1.5) - 20
+		print("V", velocity.y, "J", javTime)
 		javTime = 0
 		on_spring = false
 	else:
