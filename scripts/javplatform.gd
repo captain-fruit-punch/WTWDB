@@ -25,6 +25,8 @@ func _ready():
 	add_to_group("javplatforms")
 
 func _physics_process(delta):
+	if !owner_player.on_spring:
+		contact_time = 0
 	if facing == 1:
 		if contact_time == 0 and spritey.rotation_degrees < 0:
 			spritey.rotation_degrees += 4

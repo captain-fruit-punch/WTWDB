@@ -108,7 +108,7 @@ func _javelin_in():
 
 func start_jump():
 	if on_spring:
-		velocity.y = -(javTime/30 * jump_liftoff_speed/1.5) - 20
+		velocity.y = -(javTime/30 * jump_liftoff_speed/1.3) - 20
 		print("V", velocity.y, "J", javTime)
 		javTime = 0
 		on_spring = false
