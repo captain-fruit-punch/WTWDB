@@ -11,6 +11,7 @@ var contact_time = 0
 var facing = 1 #1 right, -1 left
 var accel = 1
 var JAV_FLY = false
+var owner_player = null
 onready var spritey = get_node("./pivot")
 
 # Called when the node enters the scene tree for the first time.
@@ -49,15 +50,15 @@ func _physics_process(delta):
 			get_node("./CollisionShape2D").set_disabled(false)
 			
 	if JAV_FLY:
-		global_position = global_position.move_toward(get_node("../../player").position,50*delta*accel)
+		global_position = global_position.move_toward(owner_player.position,50*delta*accel)
 		# MAKE JAVELIN ROTATE TO FACE PLAYER AS IT FLIES
 		accel *= 1.07
 		
-	if global_position.x > get_node("../../player").position.x - 0.01:
-		if global_position.x < get_node("../../player").position.x + 0.01:
-			if global_position.y > get_node("../../player").position.y - 0.01:
-				if global_position.y < get_node("../../player").position.y + 0.01:
-					get_node("../../player").emit_signal("javelin_in")
+	if global_position.x > owner_player.position.x - 0.01:
+		if global_position.x < owner_player.position.x + 0.01:
+			if global_position.y > owner_player.position.y - 0.01:
+				if global_position.y < owner_player.position.y + 0.01:
+					owner_player.emit_signal("javelin_in")
 					JAV_FLY = false
 					accel = 1
 					queue_free()

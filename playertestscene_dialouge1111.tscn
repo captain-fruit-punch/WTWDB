@@ -119,7 +119,7 @@ extents = Vector2( 6, 6 )
 extents = Vector2( 2, 2 )
 
 [sub_resource type="RectangleShape2D" id=14]
-extents = Vector2( 10, 16 )
+extents = Vector2( 26, 16 )
 
 [node name="playertestscene" type="Node2D"]
 script = ExtResource( 10 )
@@ -205,16 +205,8 @@ texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 32, 16, 16, 16 )
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 98, 240 )
-max_move_speed = 600
-move_accel = 100
-weight = 200
-max_fall_speed = 100
-jump_acceleration = 120
-jump_liftoff_speed = 100
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+pause_mode = 2
 
 [node name="Dialouge_Panel" parent="CanvasLayer" instance=ExtResource( 7 )]
 
@@ -230,6 +222,9 @@ texture = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dialougetest/Area2D"]
 shape = SubResource( 14 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 79, 239 )
 [connection signal="timeout" from="Unstable_Tile/Breaking_Timer" to="Unstable_Tile" method="_on_Breaking_Timer_timeout"]
 [connection signal="timeout" from="Unstable_Tile/Regen_Timer" to="Unstable_Tile" method="_on_Regen_Timer_timeout"]
 [connection signal="body_entered" from="Unstable_Tile/Break_Detection" to="Unstable_Tile" method="_on_Break_Detection_body_entered"]

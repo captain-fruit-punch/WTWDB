@@ -35,6 +35,8 @@ func _spawn_player():
 		player.name = tempName
 	print(player.name)
 
+func disable_player():
+	player._player_interact_pause()
 
 func _on_death_timer_timeout():
 	print("death complete")

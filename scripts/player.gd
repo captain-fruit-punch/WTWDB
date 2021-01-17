@@ -21,12 +21,13 @@ export (int)var jump_liftoff_speed = 7000
 signal player_damage
 signal javelin_in
 var javTime = 0
-var velocitybuf
+var velocitybuf =0
 var TERMINAL_VELOCITY = 12000
 
 var right_face = true
 var selected_item = "javelin"
 var JAVELIN_OUT = false
+var keep_javelin = null
 
 var numjavs = 0
 
@@ -36,11 +37,9 @@ func _ready():
 	connect("javelin_in", self, "_javelin_in")
 
 func get_player_movement(delta):
-	if is_disabled:
-		return
 	trying_to_move = false
 	accel = Vector2()
-	if !on_spring:
+	if !on_spring and not is_disabled:
 		if Input.is_action_pressed('ui_right'):
 			accel.x += move_accel
 			trying_to_move = true
@@ -65,7 +64,7 @@ func get_player_movement(delta):
 			accel.x *= turnaround_friction
 		if not trying_to_move:
 			accel.x = velocity.x * -1 * move_friction
-		if Input.is_action_pressed("ui_accept"):
+		if Input.is_action_pressed("ui_accept") and not is_disabled:
 			start_jump()
 	if is_jumping == true:
 		cur_jump_time += delta
@@ -80,17 +79,18 @@ func get_player_movement(delta):
 		cur_jump_time = jump_acceleration_time
 		velocity.y = 0
 		
-	if Input.is_action_just_pressed("actionkey"):
+	if Input.is_action_just_pressed("actionkey") and not is_disabled:
 		if selected_item == "javelin":
 			javelin_throw()
 
 func javelin_throw():
-	if !JAVELIN_OUT:
+	if not keep_javelin:
 		numjavs += 1
 		var javthrow = load("res://javelin.tscn")
 		var projectile = javthrow.instance()
+		projectile.owner_player = self
 		get_tree().root.get_child(0).add_child(projectile)
-
+		keep_javelin = projectile
 		if right_face:
 			projectile.position = Vector2(self.position.x + 16, self.position.y - 5)
 			if projectile.has_signal("right_face"):
@@ -100,9 +100,9 @@ func javelin_throw():
 			if projectile.has_signal("left_face"):
 				projectile.emit_signal("left_face")
 		JAVELIN_OUT = true
-	elif JAVELIN_OUT:
-		if get_node("../javplatform" + str(numjavs) + "/javplatform"):
-			get_node("../javplatform" + str(numjavs) + "/javplatform").emit_signal("delete")
+	else:
+		keep_javelin.emit_signal("delete")
+		keep_javelin = null
 
 func _javelin_in():
 	JAVELIN_OUT = false
@@ -151,4 +151,12 @@ func _on_player_player_damage():
 	is_disabled = true
 	velocity = Vector2()
 	accel = Vector2()
+	keep_javelin.emit_signal("delete")
+	keep_javelin = null
 	get_tree().call_group("Player_Spawner", "_player_died")
+
+func _player_interact_pause():
+	is_disabled = true
+	
+func _player_interact_unpause():
+	is_disabled = false
