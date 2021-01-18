@@ -52,9 +52,9 @@ func _physics_process(delta):
 			get_node("./CollisionShape2D").set_disabled(false)
 			
 	if JAV_FLY:
-		global_position = global_position.move_toward(owner_player.position,50*delta*accel)
+		global_position = global_position.move_toward(owner_player.position,95*delta*accel)
 		# MAKE JAVELIN ROTATE TO FACE PLAYER AS IT FLIES
-		accel *= 1.07
+		accel *= 1.15
 		
 	if global_position.x > owner_player.position.x - 0.01:
 		if global_position.x < owner_player.position.x + 0.01:

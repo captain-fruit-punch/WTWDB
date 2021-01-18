@@ -40,6 +40,7 @@ var velocitybuf = 0
 var landinganim = 0
 var pivotanim = 0
 var pivoting = false
+var javanim = 0
 onready var animation = get_node("./Sprite")
 
 signal player_stationary
@@ -70,7 +71,7 @@ func get_player_movement(delta):
 		if trying_to_move:
 			if abs(velocity.x) >= max_move_speed and  sign(velocity.x) * sign(accel.x) >0:
 				accel.x = 0
-			if animation.animation != "jump" and !landinganim and !pivoting:
+			if animation.animation != "jump" and !landinganim and !pivoting and !javanim:
 				animation.animation = "rightwalk"
 	accel.y += weight
 	if is_on_floor():
@@ -87,14 +88,14 @@ func get_player_movement(delta):
 				landinganim = 0
 		velocity.y = 0
 		is_jumping = false
-		if trying_to_move and !landinganim and animation.animation != "pivot":
+		if trying_to_move and !landinganim and animation.animation != "pivot" and !javanim:
 			animation.animation = "rightwalk"
 		if trying_to_move and sign(velocity.x) * sign(accel.x) <0:
 			accel.x *= turnaround_friction
 			pivoting = true
 		if not trying_to_move:
 			accel.x = velocity.x * -1 * move_friction
-			if animation.animation != "standing" and !landinganim and !pivoting:
+			if animation.animation != "standing" and !landinganim and !pivoting and !on_spring and !javanim:
 				animation.animation = "standing"
 		if Input.is_action_pressed("ui_accept") and not is_disabled:
 			start_jump()
@@ -113,10 +114,10 @@ func get_player_movement(delta):
 		velocity.y = 0
 		
 		
-	if velocity.y > 0 and animation.animation != "falling" and !is_on_wall():
+	if velocity.y > 0 and animation.animation != "falling" and !is_on_wall() and !javanim:
 		animation.animation = "falling"
 	
-	if pivoting:
+	if pivoting and !javanim:
 		animation.animation = "pivot"
 		pivotanim += 1
 		if pivotanim > 2:
@@ -125,10 +126,22 @@ func get_player_movement(delta):
 		
 	if Input.is_action_just_pressed("actionkey") and not is_disabled:
 		if selected_item == "javelin":
+			if !JAVELIN_OUT:
+				if is_on_floor():
+					animation.animation = "javground"
+				else:
+					animation.animation = "javair"
+				javanim = 1
 			javelin_throw()
+	
+	if javanim > 0:
+		javanim += 1
+		if javanim > 30:
+			javanim = 0
 
 func javelin_throw():
-	if not keep_javelin:
+	if not JAVELIN_OUT:
+		JAVELIN_OUT = true
 		numjavs += 1
 		var javthrow = load("res://javelin.tscn")
 		var projectile = javthrow.instance()
@@ -143,8 +156,7 @@ func javelin_throw():
 			projectile.position = Vector2(self.position.x - 20, self.position.y - 5)
 			if projectile.has_signal("left_face"):
 				projectile.emit_signal("left_face")
-		JAVELIN_OUT = true
-	else:
+	elif keep_javelin:
 		print(keep_javelin)
 		keep_javelin.emit_signal("delete")
 		keep_javelin = null
