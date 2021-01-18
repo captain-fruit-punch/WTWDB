@@ -2,11 +2,11 @@ extends KinematicBody2D
 
 class_name Player
 
-export (int) var max_move_speed = 5000
-export (int) var move_accel = 7000
+export (int) var max_move_speed = 120
+export (int) var move_accel = 150
 export (float) var move_friction = 15
 export (float) var turnaround_friction = 5
-export (int) var weight = 18000
+export (int) var weight = 300
 export (int) var max_fall_speed = 300
 var trying_to_move = false
 var velocity = Vector2()
@@ -15,13 +15,19 @@ var is_jumping = false
 var cur_jump_time = 0
 var is_disabled = false
 var on_spring = false
-export (int)var jump_acceleration = 16000
+export (int)var jump_acceleration = 250
 export (float)var jump_acceleration_time = 0.5
-export (int)var jump_liftoff_speed = 7000
+export (int)var jump_liftoff_speed = 120
 signal player_damage
 signal javelin_in
 var javTime = 0
 var TERMINAL_VELOCITY = 280
+
+export (float) var javelin_short_time = 0.45
+export (float) var javelin_mid_time = 0.9
+export (int) var javelin_small_jump = 90
+export (int) var javelin_med_jump = 150
+export (int) var javelin_large_jump = 165
 
 var right_face = true
 var selected_item = "javelin"
@@ -150,7 +156,12 @@ func start_jump():
 	if animation.animation != "jump":
 		animation.animation = "jump"
 	if on_spring:
-		velocity.y = 150
+		if javTime > javelin_mid_time:
+			velocity.y = -javelin_large_jump
+		elif javTime > javelin_short_time:
+			velocity.y = -javelin_med_jump
+		else:
+			velocity.y = -javelin_small_jump
 		print("V", velocity.y, "J", javTime)
 		javTime = 0
 		on_spring = false
