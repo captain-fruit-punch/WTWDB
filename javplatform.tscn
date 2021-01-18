@@ -17,6 +17,7 @@ script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="javplatform/pivot"]
 position = Vector2( -16.2708, -0.0992107 )
+z_index = 3
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 94, 4.5, 33, 7 )
